@@ -1,0 +1,13 @@
+{
+    "accounts": [
+        {
+            "name":"test",
+            "token": "0999"
+        },
+        {
+            "name": "test2",
+            "token": "0998"
+        }
+    ]
+}
+

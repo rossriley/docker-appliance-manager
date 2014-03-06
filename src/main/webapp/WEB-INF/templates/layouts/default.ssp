@@ -1,0 +1,14 @@
+<%@ val body:String %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Default Page</title>
+</head>
+<body>
+
+    <div class="container">
+      <%= unescape(body) %>
+    </div>
+
+</body>
+</html>
