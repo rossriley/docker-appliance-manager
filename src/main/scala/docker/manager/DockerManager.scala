@@ -27,6 +27,11 @@ class DockerManager extends DockerApplianceManagerStack with JacksonJsonSupport 
         accounts
     }
 
+    get("/testing") {
+        contentType = formats("json")
+        Account("testing2","testtoken")
+    }
+
 }
 
 
