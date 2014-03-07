@@ -49,12 +49,45 @@ import org.scalatra.json._
 class DockerApplianceFilesystem extends DockerApplianceManagerStack with JacksonJsonSupport {
 
     protected implicit val jsonFormats: Formats = DefaultFormats
+    val accounts = scala.io.Source.fromFile("src/main/scala/docker/manager/config/appliance.json").mkString
+
     val base: String                    = "/dockerapplicance/"
     val baseDirectory: String           = "containers"
     val configDirectory: String         = "config"
     val mountDirectory: String          = "mounts"
     val trashDirectory: String          = "trash"
     val allowedAccounts: Array[String]  = Array()
+
+
+    /** The only way to create an account currently is to add to the array in config/production.php
+     *  If the account name exists, although there isn't a config file in the accounts folder, this method will seed
+     *  the initial file.
+     **/
+    def createAccount(account:String) {
+
+    }
+
+
+    def createApp(account:String, app:String) {
+
+    }
+
+    def renameApp(account:String, oldapp:String, newapp:String) {
+
+    }
+
+    def deleteApp(account:String, app:String) {
+
+    }
+
+
+    def load(account:String) {
+
+    }
+
+    def save(account:String, settings:Array[String]) {
+
+    }
 
 
 }
