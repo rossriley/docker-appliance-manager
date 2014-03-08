@@ -3,6 +3,8 @@ package docker.manager
 import org.scalatra._
 import scalate.ScalateSupport
 import scala.io._
+import java.io.File
+import java.io.FileWriter
 
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
@@ -65,9 +67,29 @@ class DockerApplianceFilesystem extends DockerApplianceManagerStack with Jackson
      *  the initial file.
      **/
     def createAccount(account:String) {
-
+        val config = prepare(account)
+        val f = configFile(account)
+        f.createNewFile()
+        val fw = new FileWriter(f);
+        fw.write(config);
+        fw.close();
     }
 
+    def deleteAccount(account:String) :Boolean = {
+        if(configFile(account).isFile() == false) return true
+        configFile(account).delete()
+    }
+
+    def accountExists(account:String) :Boolean = {
+        configFile(account).canRead()
+    }
+
+
+    /**
+     *
+     * The methods below take care of the filesystem operations for creating apps
+     *
+    **/
 
     def createApp(account:String, app:String) {
 
@@ -82,19 +104,24 @@ class DockerApplianceFilesystem extends DockerApplianceManagerStack with Jackson
     }
 
 
-    def load(account:String) {
-        val accountInfo = Source.fromFile("config/accounts/"+account+".json")
+    def load(account:String) : String = {
+        val accountInfo = Source.fromFile("config/accounts/"+account+".json").mkString
+        accountInfo
     }
 
     def save(account:String, settings:Array[String]) {
 
     }
 
-    def prepare(account:String):String = {
+    def prepare(account:String) :String = {
         val jsonTemplate =(("account" -> account) ~ ("apps" -> List()))
-
         compact(render(jsonTemplate))
     }
+
+    def configFile(account:String) :File = {
+        return new File("config/accounts/"+account+".json")
+    }
+
 
 
 }
