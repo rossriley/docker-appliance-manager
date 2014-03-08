@@ -2,6 +2,7 @@ package docker.manager
 
 import org.scalatra._
 import scalate.ScalateSupport
+import scala.io._
 
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
@@ -18,7 +19,7 @@ class DockerManager extends DockerApplianceManagerStack with JacksonJsonSupport 
 
     protected implicit val jsonFormats: Formats = DefaultFormats
 
-    val accounts = scala.io.Source.fromFile("src/main/scala/docker/manager/config/appliance.json").mkString
+    val accounts = Source.fromFile("config/appliance.json").mkString
 
 
 

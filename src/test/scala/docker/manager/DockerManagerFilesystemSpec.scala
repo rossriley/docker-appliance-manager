@@ -8,19 +8,17 @@ class DockerManagerFilesystemSpec extends MutableScalatraSpec {
     addServlet(classOf[DockerManager], "/*")
 
 
-    "GET /" should {
-        "return status 200" in {
-            get("/") {
-                status must_== 200
-            }
+    "Loading account config file" should {
+        "Throw an exception if file doesn't exist" in {
+            val fs = new DockerApplianceFilesystem
+            fs.load("testaccount") must throwA[Exception]
         }
     }
 
-    "GET /accounts" should {
-        "return status 200" in {
-            get("/accounts") {
-                status must_== 200
-            }
+    "Preparing config file" should {
+        "Return a simple JSON string" in {
+            val fs = new DockerApplianceFilesystem
+            fs.prepare("testaccount") must beEqualTo("{\"account\":\"testaccount\",\"apps\":{}}")
         }
     }
 

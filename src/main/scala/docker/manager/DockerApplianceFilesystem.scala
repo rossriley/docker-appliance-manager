@@ -2,9 +2,11 @@ package docker.manager
 
 import org.scalatra._
 import scalate.ScalateSupport
+import scala.io._
 
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
+import org.json4s.JsonDSL._
 import org.scalatra.json._
 
 
@@ -49,7 +51,6 @@ import org.scalatra.json._
 class DockerApplianceFilesystem extends DockerApplianceManagerStack with JacksonJsonSupport {
 
     protected implicit val jsonFormats: Formats = DefaultFormats
-    val accounts = scala.io.Source.fromFile("src/main/scala/docker/manager/config/appliance.json").mkString
 
     val base: String                    = "/dockerapplicance/"
     val baseDirectory: String           = "containers"
@@ -82,11 +83,17 @@ class DockerApplianceFilesystem extends DockerApplianceManagerStack with Jackson
 
 
     def load(account:String) {
-
+        val accountInfo = Source.fromFile("config/accounts/"+account+".json")
     }
 
     def save(account:String, settings:Array[String]) {
 
+    }
+
+    def prepare(account:String):String = {
+        val jsonTemplate =(("account" -> account) ~ ("apps" -> List()))
+
+        compact(render(jsonTemplate))
     }
 
 
